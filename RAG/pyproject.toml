@@ -8,12 +8,21 @@ authors = [
 ]
 requires-python = ">=3.12,<3.13"
 dependencies = [
+    "beautifulsoup4>=4.15.0",
     "chromadb>=1.5.9",
+    "huggingface-hub>=1.32.0",
+    "iprogress>=0.4",
+    "ipykernel>=7.3.0",
     "langchain>=1.4.2",
     "langchain-community>=0.4.2",
     "langchain-groq>=1.1.3",
+    "langchain-huggingface>=1.2.2",
+    "langchain-text-splitters>=1.1.2",
     "langchainhub>=0.1.21",
+    "langsmith>=0.13.0",
+    "sentence-transformers>=6.1.0",
     "tiktoken>=0.14.0",
+    "tqdm>=4.70.1",
 ]
 
 
