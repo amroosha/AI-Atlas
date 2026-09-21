@@ -1,0 +1,21 @@
+[project]
+name = "rag"
+version = "0.1.0"
+description = "RAG learning notes, notebooks, and mini-projects"
+readme = "README.md"
+authors = [
+    { name = "amroosha", email = "amroshaa49@gmail.com" }
+]
+requires-python = ">=3.12,<3.13"
+dependencies = [
+    "groq>=1.6.0",
+    "jupyter>=1.1.1",
+    "minsearch>=0.2.0",
+    "python-dotenv>=1.2.3",
+    "requests>=2.34.2",
+]
+
+[project.scripts]
+llm-course = "llm_course:main"
+
+

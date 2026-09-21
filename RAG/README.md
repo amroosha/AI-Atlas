@@ -1,10 +1,13 @@
 # The Directory Structure:
 
 || This is a template for now ||
+
 ```
-rag/
-├── README.md              
-├── RAG.md                
+RAG/
+├── README.md                        → This is Folder structure
+├── RAG.md                           → This contains most of the theoritical parts and visualizations
+├── uv.lock
+├── pyproject.toml
 ├── notebooks/             
 │   ├── 01-chunking.ipynb
 │   ├── 02-embeddings.ipynb
