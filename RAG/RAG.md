@@ -50,6 +50,8 @@ The diagram above breaks RAG into 6 stages, in order. The first three shape
 
 # Naive RAG
 
+![NAIVE RAG](./assets/Naive_RAG.png)
+
 A simple summary of the three core stages in a naive Retrieval-Augmented Generation (RAG) pipeline:
 - **Indexing**
 - **Retrieval**
@@ -120,3 +122,8 @@ A common misconception: **more retrieved context = higher accuracy**. In practic
 | Right-sized top-k | Smaller, higher-quality k often beats large k |
 
 **Takeaway:** Quality and placement of context matters more than quantity. Good RAG pipelines prioritize **retrieval precision + reranking + smart context assembly** over maximizing the number of chunks stuffed into the prompt.
+
+## Key
+
+**LangChain** = build the RAG pipeline.
+**LangSmith** = observe, debug, and evaluate the RAG pipeline (LLMOps).

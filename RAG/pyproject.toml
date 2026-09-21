@@ -8,14 +8,14 @@ authors = [
 ]
 requires-python = ">=3.12,<3.13"
 dependencies = [
-    "groq>=1.6.0",
-    "jupyter>=1.1.1",
-    "minsearch>=0.2.0",
-    "python-dotenv>=1.2.3",
-    "requests>=2.34.2",
+    "chromadb>=1.5.9",
+    "langchain>=1.4.2",
+    "langchain-community>=0.4.2",
+    "langchain-groq>=1.1.3",
+    "langchainhub>=0.1.21",
+    "tiktoken>=0.14.0",
 ]
 
-[project.scripts]
-llm-course = "llm_course:main"
+
 
 
