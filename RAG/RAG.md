@@ -96,7 +96,7 @@ Grounding (reducing hallucination via context) and reasoning ability are **separ
 | Complex synthesis (comparison, summarization across docs) | Benefits from structured, step-by-step processing |
 | Agentic/iterative RAG (query rewriting, re-retrieval, self-critique) | Requires planning and decision-making |
 
-**Takeaway:** Match model capability to the complexity of reasoning required by the pipeline — don't default to reasoning models unless the workflow demands it.
+**Takeaway:** Match model capability to the complexity of reasoning required by the pipeline, don't default to reasoning models unless the workflow demands it.
 
 ## Context Quantity vs. Reliability
 
