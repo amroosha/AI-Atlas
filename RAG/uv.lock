@@ -784,6 +784,22 @@ wheels = [
 ]
 
 [[package]]
+name = "ipywidgets"
+version = "8.1.9"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "comm" },
+    { name = "ipython" },
+    { name = "jupyterlab-widgets" },
+    { name = "traitlets" },
+    { name = "widgetsnbextension" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/c9/7c/6db60eddf38547353b06d57941f5eee22a990640ce30479fd71a810507f2/ipywidgets-8.1.9.tar.gz", hash = "sha256:bcccba38a6ec3253f7a39c943cea5b9ad01999ce071396171adbc51c6a6a8613", size = 117252, upload-time = "2026-08-18T08:54:24.123Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/c3/55/298e9b3b864a198234997e87a1471c1b17d7f3546ace6d18fb5cf1ce24b2/ipywidgets-8.1.9-py3-none-any.whl", hash = "sha256:f2b8cbcaae10252b809fbe4d7470db75c09b769a32cbf816d20e5ca6d3c5a79d", size = 140101, upload-time = "2026-08-18T08:54:22.339Z" },
+]
+
+[[package]]
 name = "jedi"
 version = "0.20.0"
 source = { registry = "https://pypi.org/simple" }
@@ -898,6 +914,15 @@ wheels = [
 ]
 
 [[package]]
+name = "jupyterlab-widgets"
+version = "3.0.17"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/21/8b/e739cf9066ad5037a2d4b0a403f06da374fdccb9748221661c8b492d3dbc/jupyterlab_widgets-3.0.17.tar.gz", hash = "sha256:6e61fe21ca8a66039180a5cc52a433e07279d2fee79c8be963e00d55193f17a8", size = 213919, upload-time = "2026-08-18T08:52:17.511Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/33/ef/6d27fc118f58cb24886da413545a7efb0853d405fddbfd8b2d9ac09fbed4/jupyterlab_widgets-3.0.17-py3-none-any.whl", hash = "sha256:40ac1e9955acf116c4d995d9bfa082d86ad9ec6d91c4f134827cf5e0a5eb75e0", size = 217292, upload-time = "2026-08-18T08:52:15.47Z" },
+]
+
+[[package]]
 name = "kubernetes"
 version = "36.0.3"
 source = { registry = "https://pypi.org/simple" }
@@ -930,6 +955,20 @@ dependencies = [
 sdist = { url = "https://files.pythonhosted.org/packages/1c/ff/670036674e669b81c0ddba77e1f012c099eda7b7d1251b973e5367d2824e/langchain-1.4.2.tar.gz", hash = "sha256:5b476418cacbfb8f0da6e63b3b263eefdcec13b48abd6117565a25728ec10b77", size = 735715, upload-time = "2026-09-18T17:31:11.42Z" }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/85/86/cc13651cfda820d96ca8c612538166334935e8cf4331a31f5dd369d27760/langchain-1.4.2-py3-none-any.whl", hash = "sha256:30a27c34cfa0004bf659dcdef488b99a9b90acb08bcc514a5a74264755da536c", size = 163740, upload-time = "2026-09-18T17:31:10.056Z" },
+]
+
+[[package]]
+name = "langchain-chroma"
+version = "1.1.0"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "chromadb" },
+    { name = "langchain-core" },
+    { name = "numpy" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/fa/0e/54896830b7331c90788cf96b2c37858977c199da9ecdaf85cf11eb6e6bc1/langchain_chroma-1.1.0.tar.gz", hash = "sha256:8069685e7848041e998d16c8a4964256b031fd20551bf59429173415bc2adc12", size = 220382, upload-time = "2025-12-12T16:23:01.399Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/ae/35/2a6d1191acaad043647e28313b0ecd161d61f09d8be37d1996a90d752c13/langchain_chroma-1.1.0-py3-none-any.whl", hash = "sha256:ff65e4a2ccefb0fb9fde2ff38705022ace402f979d557f018f6e623f7288f0fc", size = 12981, upload-time = "2025-12-12T16:23:00.196Z" },
 ]
 
 [[package]]
@@ -1931,7 +1970,9 @@ dependencies = [
     { name = "huggingface-hub" },
     { name = "iprogress" },
     { name = "ipykernel" },
+    { name = "ipywidgets" },
     { name = "langchain" },
+    { name = "langchain-chroma" },
     { name = "langchain-community" },
     { name = "langchain-groq" },
     { name = "langchain-huggingface" },
@@ -1950,7 +1991,9 @@ requires-dist = [
     { name = "huggingface-hub", specifier = ">=1.32.0" },
     { name = "iprogress", specifier = ">=0.4" },
     { name = "ipykernel", specifier = ">=7.3.0" },
+    { name = "ipywidgets", specifier = ">=8.1.9" },
     { name = "langchain", specifier = ">=1.4.2" },
+    { name = "langchain-chroma", specifier = ">=1.1.0" },
     { name = "langchain-community", specifier = ">=0.4.2" },
     { name = "langchain-groq", specifier = ">=1.1.3" },
     { name = "langchain-huggingface", specifier = ">=1.2.2" },
@@ -2603,6 +2646,15 @@ wheels = [
     { url = "https://files.pythonhosted.org/packages/37/a1/4cf892007778eaf84ad162bfc98046e0ed89b63ac55949e3236626b2a23f/websockets-16.1.1-cp312-cp312-win32.whl", hash = "sha256:1d27fa8462ad6a1cb36206a3d0640b2333340def181fae11ed7f9adeaa5c0747", size = 179943, upload-time = "2026-07-17T22:49:36.213Z" },
     { url = "https://files.pythonhosted.org/packages/d9/de/6abe251d28c3a3f217096575400b27750b18e0b1d2fff3a2a239960fea07/websockets-16.1.1-cp312-cp312-win_amd64.whl", hash = "sha256:b436f6ec4fc3a6b4237c84d3f83170ed2b40bb584222f0ac47a0c8a5921980c7", size = 180243, upload-time = "2026-07-17T22:49:37.626Z" },
     { url = "https://files.pythonhosted.org/packages/be/4d/2d0d67834092e354d2b0498f014a41249a89556bc406cf86f3e1557bb463/websockets-16.1.1-py3-none-any.whl", hash = "sha256:6abbd3e82c731c8e531714466acd5d87b5e88ac3243465337ba71d68e23ae7e3", size = 173814, upload-time = "2026-07-17T22:51:04.184Z" },
+]
+
+[[package]]
+name = "widgetsnbextension"
+version = "4.0.16"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/bf/60/bc7a980fc78837d6ef8f5940cca4cadc433364503a4c4d42e2a7a0de3231/widgetsnbextension-4.0.16.tar.gz", hash = "sha256:adeea0ae78f0856ee4945f413299801b82a0a01416303301f39a704282a37b73", size = 1111094, upload-time = "2026-08-18T08:52:55.859Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/34/95/40e17e20046b7bc820d29d09ae84ec157ec8dd6e6f6cd722626292c31b2e/widgetsnbextension-4.0.16-py3-none-any.whl", hash = "sha256:a31a8774885b96fe825462f5d6496166f0c7cae111195b6465c801d230eb5a4e", size = 2225148, upload-time = "2026-08-18T08:52:53.736Z" },
 ]
 
 [[package]]
