@@ -408,8 +408,6 @@ With RAG-Fusion, retrieval is followed by **Reciprocal Rank Fusion**: each docum
 
 ### 1.2 Pseudo-Documents: Hypothetical Document Embeddings (HyDE)
 
-***Source:*** Gao, Ma, Lin, Callan, 2022, *Precise Zero-Shot Dense Retrieval without Relevance Labels* (arXiv:2212.10496). The docstring of the LangChain implementation cites this exact paper.
-
 ***The problem it attacks:*** dense retrieval has a structural asymmetry. Queries are short, documents are long, and they are drawn from different distributions. Even a perfect retriever comparing an embedding of `"What is Task Decomposition?"` against an embedding of a 300-word passage is comparing two unlike objects. HyDE removes the query from the comparison entirely.
 
 ***Mechanism:*** Four steps.
