@@ -167,12 +167,113 @@ HEALTHCHECK --interval=30s --timeout=3s CMD python -c "import urllib.request; ur
 CMD ["python", "-m", "app"]
 ```
 
+### CMD and ENTRYPOINT
+
+`ENTRYPOINT` defines the executable that normally cannot be replaced, while `CMD` provides default arguments or a default command. Prefer exec form so the application receives signals directly and can shut down cleanly.
+
+| Instruction | Purpose | Runtime override |
+| --- | --- | --- |
+| `ENTRYPOINT ["python", "-m", "app"]` | Fixed executable | `docker run --entrypoint sh IMAGE` |
+| `CMD ["python", "-m", "app"]` | Default executable and arguments | `docker run IMAGE other-command` |
+| `ENTRYPOINT ["python", "-m", "app"]` plus `CMD ["--port", "8000"]` | Fixed executable with default arguments | `docker run IMAGE --port 9000` |
+
+The shell form starts through `/bin/sh -c`; this can prevent signals such as `SIGTERM` from reaching the application process. The JSON array is the exec form.
+
+```dockerfile
+# Fixed executable; arguments supplied by CMD can be replaced at runtime.
+ENTRYPOINT ["python", "-m", "app"]
+CMD ["--host", "0.0.0.0", "--port", "8000"]
+```
+
+Build and exercise the image with its defaults, changed arguments, and a completely different entrypoint.
+
+```bash
+docker build -t atlas-api:dev .
+docker run --rm -p 8000:8000 atlas-api:dev
+docker run --rm -p 9000:9000 atlas-api:dev --port 9000
+docker run --rm -it --entrypoint sh atlas-api:dev
+```
+
+Use `CMD` alone for images intended to run different commands. Use `ENTRYPOINT` when the image represents one executable, such as a service or CLI, and use `CMD` for defaults that operators may change.
+
 Build and test the image locally.
 
 ```bash
 docker build --pull -t atlas-api:dev .
 docker run --rm -p 8000:8000 atlas-api:dev
 curl --fail http://127.0.0.1:8000/health
+```
+
+### Multi-Platform Builds
+
+Docker identifies platforms with an operating system, architecture, and optional variant. Common Linux targets are `linux/amd64` for x86-64 servers, `linux/arm64` for 64-bit ARM servers and Apple Silicon, and `linux/arm/v7` for 32-bit ARM devices.
+
+Inspect the host and create a Buildx builder capable of producing images for multiple platforms.
+
+```bash
+uname -m
+docker buildx version
+docker buildx ls
+docker buildx create --name atlas-builder --driver docker-container --use
+docker buildx inspect --bootstrap
+```
+
+Build for one platform and load the result into the local Docker image store. `--load` supports one platform at a time.
+
+```bash
+docker buildx build \
+	--platform linux/amd64 \
+	--tag atlas-api:amd64 \
+	--load \
+	.
+docker image inspect atlas-api:amd64 --format '{{.Os}}/{{.Architecture}}'
+docker run --rm --platform linux/amd64 atlas-api:amd64 python --version
+```
+
+Build and publish a multi-platform manifest list. Each platform gets its own image, and the registry tag points clients to the correct variant.
+
+```bash
+docker login registry.example.com
+docker buildx build \
+	--platform linux/amd64,linux/arm64,linux/arm/v7 \
+	--tag registry.example.com/team/atlas-api:1.0.0 \
+	--push \
+	.
+docker buildx imagetools inspect registry.example.com/team/atlas-api:1.0.0
+docker pull registry.example.com/team/atlas-api:1.0.0
+```
+
+Use `--platform` during a build to select the target platform and `TARGETARCH` or `TARGETPLATFORM` when a Dockerfile must download architecture-specific artifacts.
+
+```dockerfile
+FROM --platform=$BUILDPLATFORM golang:1.23 AS builder
+ARG TARGETOS
+ARG TARGETARCH
+WORKDIR /src
+COPY . .
+RUN GOOS=$TARGETOS GOARCH=$TARGETARCH go build -o /out/app .
+
+FROM alpine:3.20
+COPY --from=builder /out/app /usr/local/bin/app
+ENTRYPOINT ["/usr/local/bin/app"]
+```
+
+For builds that execute target-architecture binaries, install emulation support or use native builders. Native ARM and AMD64 builders usually provide better performance than emulation.
+
+```bash
+docker run --privileged --rm tonistiigi/binfmt --install all
+docker buildx build --platform linux/amd64,linux/arm64 --push -t registry.example.com/team/atlas-api:latest .
+docker buildx create --name atlas-multi --append ssh://arm-builder
+docker buildx inspect atlas-multi --bootstrap
+```
+
+Keep dependencies and base images available for every target, and test each published variant explicitly.
+
+```bash
+docker pull --platform linux/amd64 registry.example.com/team/atlas-api:1.0.0
+docker pull --platform linux/arm64 registry.example.com/team/atlas-api:1.0.0
+docker run --rm --platform linux/amd64 registry.example.com/team/atlas-api:1.0.0 --version
+docker run --rm --platform linux/arm64 registry.example.com/team/atlas-api:1.0.0 --version
 ```
 
 ### Docker Compose
