@@ -22,6 +22,7 @@ dependencies = [
     "langchain-text-splitters>=1.1.2",
     "langchainhub>=0.1.21",
     "langsmith>=0.13.0",
+    "scikit-learn>=1.9.1",
     "sentence-transformers>=6.1.0",
     "tiktoken>=0.14.0",
     "tqdm>=4.70.1",
