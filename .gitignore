@@ -22,3 +22,5 @@ Thumbs.db
 # IDE
 .vscode/
 .idea/
+
+RAG/Notebooks/chroma/
