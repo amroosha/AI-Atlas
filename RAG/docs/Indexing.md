@@ -79,7 +79,7 @@ Boundary quality justifies LLM cost → agentic split
 
 > Index a searchable representation of a document, but return the full document it came from.
 
-![Multi-representation Indexing](assets/multi-representation_indexing.png)
+![Multi-representation Indexing](../assets/multi-representation_indexing.png)
 
 **Why it exists**
 
@@ -142,7 +142,7 @@ retriever = MultiVectorRetriever(vectorstore=vectorstore, docstore=store, id_key
 
 > **R**ecursive **A**bstractive **P**rocessing for **T**ree-**O**rganized **R**etrieval: embed, cluster and summarize chunks progressively upward, then retrieve from the resulting tree `(Sarthi et al., 2024)`.
 
-![RAPTOR tree](assets/Raptor.png)
+![RAPTOR tree](../assets/Raptor.png)
 
 **Why it exists**
 
