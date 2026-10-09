@@ -1,7 +1,7 @@
 # ADVANCED RAG PIPELINES
 ## 5. Corrective RAG (CRAG)
 
-> Grade retrieved documents, then correct course — augment with web search or rewrite the query before generating.
+> Grade retrieved documents, then correct course, augment with web search or rewrite the query before generating.
 
 ![CRAG](../assets/crag.png)
 
@@ -19,7 +19,7 @@
 2. Fetch ground truth from MyAnimeList via Jikan (REST, no LLM); match with WRatio (fuzzy string score) ≥ 80.
 3. Embed all docs (MAL + web) into a fresh per-run Chroma collection; retrieve top-k with the query.
 4. One LLM call grades every doc: `relevant` bool + one-sentence reason.
-5. Python — not the LLM — maps grades to `CORRECT | AMBIGUOUS | INCORRECT`.
+5. Python, not the LLM, maps grades to `CORRECT | AMBIGUOUS | INCORRECT`.
 6. Router augments (web search), rewrites (new query), or generates; one retry max.
 7. Generate with inline `[n]` citations plus confidence warnings.
 
@@ -28,7 +28,7 @@
 | Piece | Decision |
 |---|---|
 | Models | gpt-oss-20b fast (extract/rewrite `low`, grade `medium`), gpt-oss-120b smart (`low`, generate only), bge-small-en-v1.5 CPU embeddings |
-| State | 16-key `TypedDict`; `mal_docs`/`web_docs` use `operator.add` (append — `web_search` can fire twice); `retrieved_docs`/`doc_grades` stay replace, recomputed per pass |
+| State | 16-key `TypedDict`; `mal_docs`/`web_docs` use `operator.add` (append, `web_search` can fire twice); `retrieved_docs`/`doc_grades` stay replace, recomputed per pass |
 | Nodes | 8: extract → jikan → (edge A) → index/retrieve → grade → (edge B) → generate \| bump_retry→web \| rewrite→web |
 | Chroma | metadata `source/section/mal_id/title/url/score`; grades never stored in Chroma |
 | Tracing | every node `def node(state, config)`; `run_name` + `stage:*` tags forwarded to `.invoke()` |
@@ -37,14 +37,14 @@
 
 ## Choosing
 
-Route after grading — checked in order:
+Route after grading | checked in order:
 
 | Condition | Route | Reason |
 |---|---|---|
 | `retry_count ≥ 1` | generate | hard loop guard: ≤ 2 web searches |
 | CORRECT | generate | answerable now |
-| AMBIGUOUS | bump_retry → web_search | query fine — add evidence |
-| INCORRECT | rewrite_query → web_search | query wrong — same query returns same garbage |
+| AMBIGUOUS | bump_retry → web_search | query fine, add evidence |
+| INCORRECT | rewrite_query → web_search | query wrong, same query returns same garbage |
 
 ## Minimal example
 
@@ -67,14 +67,14 @@ def route_after_grading(state):
 
 ## Uncertainty
 
-- `api.jikan.moe` unreachable from this machine (TCP timeout, ports 80/443, 2026-10-06); `myanimelist.net` reachable — MAL scenarios unverified live.
+- `api.jikan.moe` unreachable from this machine (TCP timeout, ports 80/443, 2026-10-06); `myanimelist.net` reachable MAL scenarios unverified live.
 - Reasoning text appeared in `additional_kwargs["reasoning_content"]`, not `response_metadata["reasoning"]`, with installed langchain-groq `(unverified across versions)`.
-- Scenario 1's "zero AMBIGUOUS" expectation depends on grader judgment — not yet observed.
+- Scenario 1's "zero AMBIGUOUS" expectation depends on grader judgment not yet observed.
 - CRAG paper's knowledge-refinement (strip partitioning) intentionally omitted.
 
 ## References
 
-- [Corrective-RAG paper](https://arxiv.org/abs/2401.15884) — grading-then-correction flow.
-- [Jikan docs](https://jikan.moe) — MAL wrapper, 60 req/min limit.
-- [LangGraph how-tos](https://langchain-ai.github.io/langgraph/) — state reducers, config forwarding.
-- [Groq reasoning docs](https://console.groq.com/docs/reasoning) — `reasoning_effort` and formats.
+- [Corrective-RAG paper](https://arxiv.org/abs/2401.15884) grading-then-correction flow.
+- [Jikan docs](https://jikan.moe) MAL wrapper, 60 req/min limit.
+- [LangGraph how-tos](https://langchain-ai.github.io/langgraph/) state reducers, config forwarding.
+- [Groq reasoning docs](https://console.groq.com/docs/reasoning) `reasoning_effort` and formats.
